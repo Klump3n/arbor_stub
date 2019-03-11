@@ -15,7 +15,6 @@ def parse_arguments():
     """
     parser = argparse.ArgumentParser(
         description=__doc__,
-        epilog=arbor_text,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
     parser.add_argument("-l", "--log", help="set logging level",
