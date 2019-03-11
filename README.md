@@ -1,4 +1,5 @@
 # stub
+```
                                .-MMMy
                                 -MMM-
                                 hMMh
@@ -8,6 +9,6 @@
  dMMy    sMMm    `NMMs        sMMd    -MMN. /MMM:    /MMN.  .MMMo
  NMMs  `yMMM/`.  +MMN        `NMM:   .mMh.  -MMM+   `mMm-   sMMd
  /NMN+ohhMMMds-  NMM+        sMmM:.:sNy:     :mMN+:+mh/    `NMM:
-
+```
 A stub that can be used as a template for new projects. Logging is already in place.
 
