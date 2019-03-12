@@ -32,6 +32,8 @@ def setup_loggers(logging_level):
     cl(logging_level)
     cl.info("starting logging")
     cl.info("logging level is set to {}".format(logging_level))
+    if not logging_level == "quiet":
+        print()                 # newline
 
 def greet():
     """

@@ -7,7 +7,7 @@ class BaseLogger(logging.Logger):
     A simple logging class.
 
     """
-    def __init__(self, name="", logging_level="info"):
+    def __init__(self, name=None, logging_level="info", time=True):
         """
         Setup the base logging class.
 
@@ -16,7 +16,9 @@ class BaseLogger(logging.Logger):
         """
         super().__init__(name)
 
-        if logging_level == "quiet":
+        if not logging_level:
+            logging_level = logging.INFO
+        elif logging_level == "quiet":
             logging_level = logging.NOTSET
         elif logging_level == "debug":
             logging_level = logging.DEBUG
@@ -30,14 +32,20 @@ class BaseLogger(logging.Logger):
             logging_level = logging.ERROR
         elif logging_level == "critical":
             logging_level = logging.CRITICAL
+        elif logging_level == "fatal":
+            logging_level = logging.FATAL
 
         # add a verbose setting
         logging.addLevelName(15, "VERBOSE")
 
-        if not name == "":
-            fmt = "[%(asctime)s; %(name)s] (%(levelname)s): %(message)s"
+        if name and time:
+            fmt = "[%(asctime)s,%(msecs)03d; %(name)s; %(levelname)s] %(message)s"
+        elif name and not time:
+            fmt = "[%(name)s; %(levelname)s] %(message)s"
+        elif (not name or name == "") and time:
+            fmt = "[%(asctime)s,%(msecs)03d; %(levelname)s] %(message)s"
         else:
-            fmt = "[%(asctime)s] (%(levelname)s): %(message)s"
+            fmt = "[%(levelname)s] %(message)s"
 
         fmt_date = "%d.%m.%Y %T"
         formatter = logging.Formatter(fmt, fmt_date)
@@ -54,8 +62,8 @@ class BaseLogger(logging.Logger):
 
 class LogWrapper(object):
     _wrapper_instance = None
-    def __new__(cls, name, level):
-        cls._wrapper_instance = BaseLogger(name, level)
+    def __new__(cls, name, level, time):
+        cls._wrapper_instance = BaseLogger(name, level, time)
         return cls
 
     @classmethod
@@ -74,8 +82,7 @@ class LogWrapper(object):
 
     @classmethod
     def verbose(cls, msg):
-        if not cls._wrapper_instance:
-            raise ValueError("LogWrapper not instantiated")
+        cls._check_inst()
         cls._wrapper_instance.log(15, msg)
 
     @classmethod
@@ -98,10 +105,18 @@ class LogWrapper(object):
         cls._check_inst()
         cls._wrapper_instance.critical(msg)
 
+    @classmethod
+    def fatal(cls, msg):
+        cls._check_inst()
+        cls._wrapper_instance.fatal(msg)
 
 class CoreLog(LogWrapper):
     _my_instance = None
-    def __new__(cls, level):
+    def __new__(cls, level=None, name="Core", time=True):
         if not cls._my_instance:
-            cls._my_instance = LogWrapper("Core", level)
+            cls._my_instance = LogWrapper(name, level, time)
         return cls
+
+    @classmethod
+    def _clear(cls):
+        cls._my_instance = None
