@@ -6,7 +6,8 @@ A descriptive text.
 import argparse
 
 from util.logging.logger import CoreLog as cl
-from util.opt.greet import arbor_text
+from util.opt.greet import greeting
+
 
 def parse_arguments():
     """
@@ -40,7 +41,7 @@ def greet():
     Print a greeting.
 
     """
-    print(arbor_text)
+    print(greeting(text=None))
 
 def main():
     """
