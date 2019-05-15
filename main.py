@@ -41,7 +41,7 @@ def greet():
     Print a greeting.
 
     """
-    print(greeting(text=None))
+    print(greeting(text="some text"))
 
 def main():
     """
@@ -52,6 +52,14 @@ def main():
     logging_level = args.log
     greet()
     setup_loggers(logging_level)
+
+    cl.debug("DEBUG")
+    cl.verbose("VERBOSE")
+    cl.verbose_warning("VERBOSE_WARNING")
+    cl.info("INFO")
+    cl.warning("WARNING")
+    cl.error("ERROR")
+    cl.critical("CRITICAL")
 
 if __name__ == "__main__":
     main()
