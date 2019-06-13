@@ -41,7 +41,7 @@ def greet():
     Print a greeting.
 
     """
-    print(greeting(text="some text"))
+    print(greeting())
 
 def main():
     """
